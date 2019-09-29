@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 
+
 class CrimeFragment : Fragment() {
 
     private lateinit var crime: Crime
