@@ -34,7 +34,7 @@ class CrimeListFragment: Fragment() {
 
 
     private lateinit var crimeRecyclerView: RecyclerView
-    private var adapter: CrimeAdapter? = CrimeAdapter(emptyList())
+    private var adapter: CrimeAdapter? = CrimeAdapter()
     private val crimeListViewModel: CrimeListViewModel by lazy {
         ViewModelProviders.of(this).get(CrimeListViewModel::class.java)
     }
@@ -64,9 +64,8 @@ class CrimeListFragment: Fragment() {
                 viewLifecycleOwner,
             Observer { crimes ->
                 crimes?.let {
-
                     Log.i(TAG, "Got crimes ${crimes.size}")
-                    adapter?.submitList(crimes.toMutableList())
+                    updateUI(crimes)
 
                 }
             })
@@ -78,8 +77,10 @@ class CrimeListFragment: Fragment() {
     }
 
     private fun updateUI(crimes: List<Crime>){
-        adapter = CrimeAdapter(crimes)
-        crimeRecyclerView.adapter = adapter
+
+        //adapter=CrimeAdapter(crimes)
+        adapter?.submitList(crimes)
+
     }
 
     private inner class CrimeHolder(view: View)
@@ -111,29 +112,32 @@ class CrimeListFragment: Fragment() {
         }
     }
 
-    private inner class CrimeAdapter(var crimes: List<Crime>)
-        : ListAdapter<Crime, CrimeHolder>(CrimeDiffUtilCallback()){
+    private inner class CrimeAdapter() : ListAdapter<Crime, CrimeHolder>(CrimeDiffUtilCallback()){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
+
+
             val view = layoutInflater.inflate(R.layout.list_item_crime,parent, false)
             return CrimeHolder(view)
         }
 
-        override fun getItemCount() = crimes.size
 
         override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
-            val crime = crimes[position]
-            holder.bind(crime)
+
+            holder.bind(getItem(position))
+
         }
 
     }
 
     inner class CrimeDiffUtilCallback : DiffUtil.ItemCallback<Crime>(){
         override fun areItemsTheSame(oldItem: Crime, newItem: Crime): Boolean {
+            Log.d(TAG, "Got crimes diffult")
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Crime, newItem: Crime): Boolean {
-            return oldItem.title == newItem.title
+            Log.d(TAG, "Got crimes diffult contents")
+            return oldItem == newItem
         }
 
     }
