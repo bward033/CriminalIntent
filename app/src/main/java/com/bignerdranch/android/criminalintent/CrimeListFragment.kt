@@ -77,10 +77,7 @@ class CrimeListFragment: Fragment() {
     }
 
     private fun updateUI(crimes: List<Crime>){
-
-
         adapter.submitList(crimes)
-
     }
 
     private inner class CrimeHolder(view: View)
@@ -112,7 +109,7 @@ class CrimeListFragment: Fragment() {
         }
     }
 
-    private inner class CrimeAdapter() : ListAdapter<Crime, CrimeHolder>(CrimeDiffUtilCallback()){
+    private inner class CrimeAdapter : ListAdapter<Crime, CrimeHolder>(CrimeDiffUtilCallback()){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
 
 
