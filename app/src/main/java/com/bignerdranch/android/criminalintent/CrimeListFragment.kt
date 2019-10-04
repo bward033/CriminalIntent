@@ -34,7 +34,7 @@ class CrimeListFragment: Fragment() {
 
 
     private lateinit var crimeRecyclerView: RecyclerView
-    private var adapter: CrimeAdapter? = CrimeAdapter()
+    private var adapter: CrimeAdapter = CrimeAdapter()
     private val crimeListViewModel: CrimeListViewModel by lazy {
         ViewModelProviders.of(this).get(CrimeListViewModel::class.java)
     }
@@ -78,8 +78,8 @@ class CrimeListFragment: Fragment() {
 
     private fun updateUI(crimes: List<Crime>){
 
-        //adapter=CrimeAdapter(crimes)
-        adapter?.submitList(crimes)
+
+        adapter.submitList(crimes)
 
     }
 
